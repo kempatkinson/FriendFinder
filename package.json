@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/kempatkinson/FriendFinder/issues"
   },
-  "homepage": "https://github.com/kempatkinson/FriendFinder#readme"
+  "homepage": "https://github.com/kempatkinson/FriendFinder#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^1.19.3",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {}
 }
