@@ -1,12 +1,12 @@
 var path = require("path");
-var friends = require("../data/friends.js")
+var friendsdata = require("../data/friends.js")
 module.exports = function (app) {
     
     app.post("/api/friends", function (req, res) {
        // post survey results in database (array in friends.js)
        
         console.log("this is the post" + req.body)
-        friends.push(req.body)
+        friendsdata.push(req.body)
         res.json(req.body)
        // for loop to ad   d each question to scores array
 
@@ -14,8 +14,8 @@ module.exports = function (app) {
     });
 
     app.get("/api/friends", function (req, res) {
-        console.log("this is the get" + res.body);
-        res.json(friends)
+        console.log("this is the get" + JSON.stringify(friendsdata, null, 2));
+        res.json(friendsdata)
     });
     
 
