@@ -56,7 +56,7 @@
       <option value="5">5 (Strongly Agree)</option>
     </select>
 
-<!-- 
+    <!-- 
     <h3><strong>Question 3</strong></h3>
     <h4>You find it easy to stay relaxed and focused even when there is some pressure.</h4>
     <select class="chosen-select" id="q3">
@@ -181,7 +181,7 @@
         </div>
         <div class="modal-body">
           <h2 id="match-name"></h2>
-          <!-- <img id="match-img" src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt=""> -->
+          <img id="match-img" src="" alt="">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -192,6 +192,8 @@
   </div>
 
   <script type="text/javascript">
+
+
     // Chosen CSS
     var config = {
       ".chosen-select": {},
@@ -254,18 +256,64 @@
             $("#q10").val()
           ]
         };
-
+        var matchname = "";
+        var matchphoto = "";
         // AJAX post the data to the friends API.
         $.post("/api/friends", userData, function (data) {
           // Grab the result from the AJAX post so that the best match's name and photo are displayed.
-          $("#match-name").text(data.name);
-          $("#match-img").attr("src", data.photo);
 
+
+          $.get("/api/friends", function (data2) {
+            var comparescores = [];
+            for (var i = 0; i < data2.length - 1; i++) {
+              var iScore = 0;
+
+              // console.log("this is increimented data " + i + " scores: " + data2[i].scores);
+              // console.log("this is the user's scores :" + (data.scores))
+
+              for (var k = 0; k < data.scores.length; k++) {
+                // if e lse stameent checking the validity of us
+
+                // console.log("this is incrimented friend # " + i + " score for question " + k + ": " + parseInt(data2[i].scores[k]))
+                // console.log("this is user data score for question" + k + ": " + parseInt(data.scores[k]))
+                if (!NaN(data.scores[k)) {
+                  break;
+                }
+                iScore += Math.abs(((parseInt(data.scores[k])) - (parseInt(data2[i].scores[k]))))
+                // console.log("this is iscore: " + iScore)
+
+              }
+
+              comparescores.push(iScore)
+            }
+            lowestIndex = 0;
+            for (var j = 0; j < comparescores.length - 1; j++) {
+
+              if (comparescores[lowestIndex] > comparescores[j]) {
+                lowestIndex = j;
+              }
+
+            }
+            console.log("the lowest index is: " + lowestIndex)
+            console.log("this is the scores with the best match: " + data2[lowestIndex].name)
+            matchname = JSON.stringify(data2[lowestIndex].name);
+            matchphoto = JSON.stringify(data2[lowestIndex].photo);
+            $("#match-name").text(matchname);
+            $("#match-img").attr("src", matchphoto);
+            $("#results-modal").modal("toggle");
+
+
+
+          })
           // Show the modal with the best match
-          $("#results-modal").modal("toggle");
-
         });
-      } else {
+
+
+
+
+
+      }
+      else {
         alert("Please fill out all fields before submitting!");
       }
     });
