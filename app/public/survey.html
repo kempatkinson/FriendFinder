@@ -298,6 +298,8 @@
             console.log("this is the scores with the best match: " + data2[lowestIndex].name)
             matchname = JSON.stringify(data2[lowestIndex].name);
             matchphoto = JSON.stringify(data2[lowestIndex].photo);
+
+                      // Show the modal with the best match
             $("#match-name").text(matchname);
             $("#match-img").attr("src", matchphoto);
             $("#results-modal").modal("toggle");
@@ -305,7 +307,6 @@
 
 
           })
-          // Show the modal with the best match
         });
 
 
